@@ -39,7 +39,7 @@ const educations = [
 
 export function Team() {
   return (
-    <div className="relative py-32 w-full" style={{
+    <div className="relative py-16 sm:py-32 w-full" style={{
       overflow: 'visible',
       height: 'auto',
       minHeight: '0',
@@ -49,39 +49,39 @@ export function Team() {
       <div className="absolute top-0 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10" style={{ overflow: 'visible' }}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10" style={{ overflow: 'visible' }}>
 
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">Academic Journey</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">Academic Journey</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
 
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-8 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-8 text-slate-100">
             <span className="block mb-2">My</span>
             <span className="block">Education</span>
           </h2>
 
-          <p className="text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed px-2">
             "Education is the most powerful weapon which you can use to change the world."
           </p>
         </div>
 
         {/* Framed Education Board */}
         <div className="max-w-6xl mx-auto" style={{ overflow: 'visible' }}>
-          <div className="bg-gradient-to-br from-black via-gray-900 to-black p-8 rounded-2xl shadow-2xl relative border border-gray-800/50" style={{ overflow: 'visible' }}>
-            <div className="bg-gradient-to-br from-slate-100 via-gray-50 to-slate-200 rounded-xl p-8 relative border border-slate-300/50" style={{ overflow: 'visible' }}>
+          <div className="bg-gradient-to-br from-black via-gray-900 to-black p-4 sm:p-8 rounded-xl sm:rounded-2xl shadow-2xl relative border border-gray-800/50" style={{ overflow: 'visible' }}>
+            <div className="bg-gradient-to-br from-slate-100 via-gray-50 to-slate-200 rounded-lg sm:rounded-xl p-4 sm:p-8 relative border border-slate-300/50" style={{ overflow: 'visible' }}>
               {/* Subtle texture */}
-              <div className="absolute inset-0 opacity-30 rounded-xl"
+              <div className="absolute inset-0 opacity-30 rounded-lg sm:rounded-xl"
                 style={{
                   backgroundImage: `radial-gradient(circle at 30% 30%, rgba(71, 85, 105, 0.03) 1px, transparent 1px)`,
                   backgroundSize: '30px 30px'
                 }} />
 
               {/* Education Cards Grid */}
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8" style={{ overflow: 'visible' }}>
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-8" style={{ overflow: 'visible' }}>
                 {educations.map((edu, index) => (
                   <div
                     key={index}
@@ -95,31 +95,31 @@ export function Team() {
                       <div className="absolute -top-2 right-4 w-4 h-4 bg-gradient-to-br from-red-500 to-red-600 rounded-full shadow-lg border border-red-700" />
                       <div className="absolute inset-0 bg-gradient-to-br from-slate-50/30 via-transparent to-gray-100/20" />
 
-                      <div className="p-6 text-center relative z-10">
+                      <div className="p-4 sm:p-6 text-center relative z-10">
                         {/* Header */}
-                        <div className="mb-4">
-                          <h3 className="text-3xl font-black text-black mb-2" style={{ fontFamily: 'serif', letterSpacing: '0.1em' }}>
+                        <div className="mb-3 sm:mb-4">
+                          <h3 className="text-2xl sm:text-3xl font-black text-black mb-2" style={{ fontFamily: 'serif', letterSpacing: '0.1em' }}>
                             EDUCATION
                           </h3>
                           <div className="w-full h-0.5 bg-black mb-2" />
                         </div>
 
                         {/* Institution Logo */}
-                        <div className="relative mb-4 mx-auto w-32 h-32 border-2 border-black bg-white rounded-sm flex items-center justify-center overflow-hidden">
+                        <div className="relative mb-3 sm:mb-4 mx-auto w-24 h-24 sm:w-32 sm:h-32 border-2 border-black bg-white rounded-sm flex items-center justify-center overflow-hidden">
                           <img
                             src={edu.image}
                             alt={edu.institution}
-                            className="w-full h-full object-contain p-2"
+                            className="w-full h-full object-contain p-1.5 sm:p-2"
                           />
                         </div>
 
                         {/* Details */}
-                        <div className="text-left space-y-2" style={{ fontFamily: 'serif' }}>
-                          <div className="font-bold text-blue-600 text-sm">{edu.crime}</div>
-                          <div className="font-black text-base text-black leading-tight">{edu.degree}</div>
-                          <div className="text-sm text-gray-700">{edu.institution}</div>
-                          <div className="text-xs text-gray-500">{edu.location}</div>
-                          <div className="font-bold text-black text-sm border-t border-gray-300 pt-2 mt-2">
+                        <div className="text-left space-y-1.5 sm:space-y-2" style={{ fontFamily: 'serif' }}>
+                          <div className="font-bold text-blue-600 text-xs sm:text-sm">{edu.crime}</div>
+                          <div className="font-black text-sm sm:text-base text-black leading-tight">{edu.degree}</div>
+                          <div className="text-xs sm:text-sm text-gray-700">{edu.institution}</div>
+                          <div className="text-[10px] sm:text-xs text-gray-500">{edu.location}</div>
+                          <div className="font-bold text-black text-xs sm:text-sm border-t border-gray-300 pt-2 mt-2">
                             📅 {edu.period}
                           </div>
                         </div>

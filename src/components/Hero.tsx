@@ -200,28 +200,28 @@ export function Hero() {
                 <span className="text-sm font-medium text-slate-300">Available for work</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight text-slate-100 mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight text-slate-100 mb-4">
                 Hi There,<br />
                 I'm <span className="text-accent-blue">Pratik</span>{' '}
                 <span className="text-slate-100">Chaudhary</span>
               </h1>
 
-              <div className="text-xl sm:text-2xl text-slate-300 mb-8 h-8">
+              <div className="text-base sm:text-xl md:text-2xl text-slate-300 mb-6 sm:mb-8 min-h-[2rem]">
                 I'm into{' '}
-                <span className="text-accent-purple font-semibold">
+                <span className="text-accent-purple font-semibold break-words">
                   {displayText}<span className="animate-pulse">|</span>
                 </span>
               </div>
 
-              <p className="text-base text-slate-300 mb-8 max-w-lg leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-300 mb-6 sm:mb-8 max-w-lg leading-relaxed px-1">
                 Dedicated Computer Science student with proven full-stack development expertise. Proficient in MERN Stack, Python, Java, and data science technologies. Combines technical proficiency with digital marketing experience to create impactful, user-centered solutions.
               </p>
 
-              <div className="flex flex-wrap gap-4 mb-10">
+              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 w-full xs:w-auto">
                 <motion.a
                   href="#about"
                   whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="bg-accent-blue text-white font-semibold px-8 py-3 rounded-md hover:opacity-90 gentle-animation"
+                  className="bg-accent-blue text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:opacity-90 gentle-animation text-sm sm:text-base text-center w-full xs:w-auto"
                 >
                   About Me ↓
                 </motion.a>
@@ -229,14 +229,14 @@ export function Hero() {
                   href="/CV.pdf"
                   download="Pratik_Chaudhary_CV.pdf"
                   whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="bg-background clean-border text-foreground font-semibold px-8 py-3 rounded-md hover:bg-card gentle-animation"
+                  className="bg-background clean-border text-foreground font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-card gentle-animation text-sm sm:text-base text-center w-full xs:w-auto"
                 >
                   Resume →
                 </motion.a>
               </div>
 
               {/* Social Links */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
                 {socials.map(social => (
                   <motion.a
                     key={social.label}
@@ -245,7 +245,7 @@ export function Hero() {
                     rel="noopener noreferrer"
                     aria-label={social.label}
                     whileHover={{ scale: 1.2, y: -2 }}
-                    className="w-10 h-10 bg-card clean-border rounded-full flex items-center justify-center text-slate-300 hover:text-blue-400 hover:bg-accent-blue/10 gentle-animation"
+                    className="w-9 h-9 sm:w-10 sm:h-10 bg-card clean-border rounded-full flex items-center justify-center text-slate-300 hover:text-blue-400 hover:bg-accent-blue/10 gentle-animation"
                   >
                     {social.icon}
                   </motion.a>

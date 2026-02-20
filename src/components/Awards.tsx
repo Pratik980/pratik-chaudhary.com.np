@@ -68,41 +68,41 @@ export function Awards() {
       <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">Certifications</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">Certifications</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-6 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-6 text-slate-100">
             Awards & Certifications
           </h2>
-          <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto px-2">
             Verified credentials and training from industry-leading platforms
           </p>
         </div>
 
         {/* Certifications Grid */}
         <div className="relative max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
             {certifications.map((cert, index) => (
               <div
                 key={index}
-                className="group relative bg-background border border-border rounded-2xl p-6 shadow-md hover:scale-[1.02] transition-all duration-500 flex flex-col gap-4"
+                className="group relative bg-background border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md hover:scale-[1.02] transition-all duration-500 flex flex-col gap-3 sm:gap-4"
                 style={{ boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
               >
                 {/* Top row */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${colorMap[cert.color]} mb-3 inline-block`}>
+                    <span className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${colorMap[cert.color]} mb-2 sm:mb-3 inline-block`}>
                       {cert.date}
                     </span>
-                    <h3 className="text-xl font-black text-foreground leading-tight">{cert.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{cert.issuer}</p>
+                    <h3 className="text-base sm:text-xl font-black text-foreground leading-tight">{cert.title}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1">{cert.issuer}</p>
                   </div>
-                  <div className={`w-3 h-3 rounded-full mt-1 flex-shrink-0 ${dotMap[cert.color]} animate-pulse`} />
+                  <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 flex-shrink-0 ${dotMap[cert.color]} animate-pulse`} />
                 </div>
 
                 {/* Single link */}
@@ -111,25 +111,25 @@ export function Awards() {
                     href={cert.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-blue-500 hover:underline text-sm font-medium"
+                    className="flex items-center gap-2 text-blue-500 hover:underline text-xs sm:text-sm font-medium"
                   >
-                    <ExternalLink className="w-4 h-4" /> View Certificate
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> View Certificate
                   </a>
                 )}
 
                 {/* Sub-links for multi-cert */}
                 {cert.subLinks && (
-                  <ul className="space-y-2">
+                  <ul className="space-y-1.5 sm:space-y-2">
                     {cert.subLinks.map((sub, i) => (
                       <li key={i}>
                         <a
                           href={sub.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-blue-500 hover:underline text-sm font-medium"
+                          className="flex items-center gap-2 text-blue-500 hover:underline text-xs sm:text-sm font-medium"
                         >
-                          <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
-                          <span>{sub.label}</span>
+                          <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
+                          <span className="line-clamp-1">{sub.label}</span>
                         </a>
                       </li>
                     ))}

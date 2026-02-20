@@ -36,23 +36,23 @@ const colorBorder: Record<string, string> = {
 
 export function Experience() {
   return (
-    <section id="experience" className="relative py-32 overflow-hidden">
+    <section id="experience" className="relative py-16 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/10 to-background/70" />
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">Work History</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">Work History</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-6 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-6 text-slate-100">
             Experience
           </h2>
-          <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto px-2">
             Real-world experience building and shipping production applications
           </p>
         </div>

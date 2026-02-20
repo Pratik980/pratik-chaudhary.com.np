@@ -82,52 +82,52 @@ const dotMap: Record<string, string> = {
 
 export function Portfolio() {
   return (
-    <section id="portfolio" className="relative py-32">
+    <section id="portfolio" className="relative py-16 sm:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/10 to-background/70" />
       <div className="absolute top-1/4 left-0 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">Projects Made</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-20">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">Projects Made</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-8 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-8 text-slate-100">
             <span className="block mb-2">Featured Projects</span>
           </h2>
-          <p className="text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed px-2">
             A collection of projects that showcase my skills and passion for building great software.
           </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="group relative bg-card clean-border rounded-2xl p-6 elevated-shadow hover:scale-[1.02] transition-all duration-300 flex flex-col"
+              className="group relative bg-card clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 elevated-shadow hover:scale-[1.02] transition-all duration-300 flex flex-col"
             >
               {/* Category badge */}
-              <div className="flex items-center justify-between mb-4">
-                <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${colorMap[project.color]}`}>
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <span className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${colorMap[project.color]}`}>
                   {project.category}
                 </span>
-                <div className={`w-2.5 h-2.5 rounded-full ${dotMap[project.color]} animate-pulse`} />
+                <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${dotMap[project.color]} animate-pulse`} />
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-black text-foreground mb-3">{project.title}</h3>
+              <h3 className="text-lg sm:text-xl font-black text-foreground mb-2 sm:mb-3">{project.title}</h3>
 
               {/* Description */}
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1">{project.description}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-5 flex-1 line-clamp-4 sm:line-clamp-none">{project.description}</p>
 
               {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                 {project.tech.map(t => (
-                  <span key={t} className="text-xs bg-background border border-border rounded-md px-2 py-1 text-muted-foreground font-medium">
+                  <span key={t} className="text-[10px] sm:text-xs bg-background border border-border rounded-md px-1.5 sm:px-2 py-0.5 sm:py-1 text-muted-foreground font-medium">
                     {t}
                   </span>
                 ))}
@@ -139,9 +139,9 @@ export function Portfolio() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background text-sm font-semibold px-4 py-2.5 rounded-lg hover:opacity-80 gentle-animation"
+                  className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:opacity-80 gentle-animation"
                 >
-                  <Github className="w-4 h-4" /> View on GitHub
+                  <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> View on GitHub
                 </a>
               </div>
             </div>

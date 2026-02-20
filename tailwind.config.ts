@@ -9,12 +9,21 @@ export default {
       center: true,
       padding: 'calc(var(--spacing) * 4)', // 1rem with 14px base = 14px padding
       screens: {
+        xs: '25rem',
         sm: '40rem',
         md: '48rem', 
         lg: '64rem',
         xl: '80rem',
         '2xl': '96rem',
       },
+    },
+    screens: {
+      xs: '400px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
     },
     extend: {
       fontFamily: {

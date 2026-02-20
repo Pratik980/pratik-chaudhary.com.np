@@ -33,36 +33,36 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="relative py-32">
+    <section id="contact" className="relative py-16 sm:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/15 to-background/70" />
       <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">Let's Connect</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">Let's Connect</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-8 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-8 text-slate-100">
             <span className="block mb-2">Get in Touch</span>
           </h2>
-          <p className="text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-2xl lg:text-3xl text-slate-300 max-w-4xl mx-auto leading-relaxed px-2">
             Have a project in mind? Let's discuss how we can work together.
           </p>
         </div>
 
         {/* Contact Content */}
         <div className="max-w-5xl mx-auto">
-          <div className="bg-background clean-border rounded-3xl overflow-hidden elevated-shadow">
+          <div className="bg-background clean-border rounded-2xl sm:rounded-3xl overflow-hidden elevated-shadow">
             {/* Widget Header */}
-            <div className="bg-card/50 px-8 py-6 border-b border-border">
+            <div className="bg-card/50 px-4 sm:px-8 py-4 sm:py-6 border-b border-border">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-black text-foreground mb-1">Send a Message</h3>
-                  <p className="text-muted-foreground">I'll respond within 24 hours</p>
+                  <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">Send a Message</h3>
+                  <p className="text-sm text-muted-foreground">I'll respond within 24 hours</p>
                 </div>
                 <div className="hidden sm:flex items-center space-x-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full" />
@@ -71,7 +71,7 @@ export function Contact() {
               </div>
             </div>
 
-            <div className="p-8 lg:p-12">
+            <div className="p-4 sm:p-8 lg:p-12">
               {submitted ? (
                 <div className="text-center py-16">
                   <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -167,28 +167,28 @@ export function Contact() {
         </div>
 
         {/* Bottom Info */}
-        <div className="text-center mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="bg-background clean-border rounded-2xl p-6 subtle-shadow">
-              <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-6 h-6 text-blue-500" />
+        <div className="text-center mt-8 sm:mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto">
+            <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
               </div>
-              <h4 className="font-black text-foreground mb-2">Email</h4>
-              <p className="text-muted-foreground text-sm">prtkcha980@gmail.com</p>
+              <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Email</h4>
+              <p className="text-muted-foreground text-xs sm:text-sm">prtkcha980@gmail.com</p>
             </div>
-            <div className="bg-background clean-border rounded-2xl p-6 subtle-shadow">
-              <div className="w-12 h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Phone className="w-6 h-6 text-purple-500" />
+            <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" />
               </div>
-              <h4 className="font-black text-foreground mb-2">Phone</h4>
-              <p className="text-muted-foreground text-sm">+977 9762825200</p>
+              <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Phone</h4>
+              <p className="text-muted-foreground text-xs sm:text-sm">+977 9762825200</p>
             </div>
-            <div className="bg-background clean-border rounded-2xl p-6 subtle-shadow">
-              <div className="w-12 h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-6 h-6 text-cyan-500" />
+            <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow sm:col-span-2 md:col-span-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-500" />
               </div>
-              <h4 className="font-black text-foreground mb-2">Location</h4>
-              <p className="text-muted-foreground text-sm">Kalanki, Kathmandu, Nepal</p>
+              <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Location</h4>
+              <p className="text-muted-foreground text-xs sm:text-sm">Kalanki, Kathmandu, Nepal</p>
             </div>
           </div>
         </div>

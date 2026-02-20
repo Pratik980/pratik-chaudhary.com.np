@@ -58,29 +58,29 @@ export function About() {
       <div className="absolute top-0 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
 
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-slate-300">About Me</span>
-            <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
+        <div className="text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-3 mb-4 sm:mb-6">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-blue-500 rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-300">About Me</span>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-purple-500 rounded-full animate-pulse" />
           </div>
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-6 text-slate-100">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 sm:mb-6 text-slate-100">
             Who I Am
           </h2>
-          <p className="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto px-2">
             A passionate full-stack developer crafting scalable digital solutions
           </p>
         </div>
 
         {/* About Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-12 sm:mb-20">
           {/* Image */}
-          <div className="flex justify-center">
+          <div className="hidden lg:flex justify-center order-2 lg:order-1">
             <div className="relative">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 scale-105 blur-2xl" />
-              <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-2xl overflow-hidden clean-border elevated-shadow">
+              <div className="relative w-56 h-64 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden clean-border elevated-shadow">
                 <img
                   src={aboutImg}
                   alt="Pratik Chaudhary"
@@ -91,11 +91,11 @@ export function About() {
           </div>
 
           {/* Content */}
-          <div>
-            <h3 className="text-3xl font-black text-slate-100 mb-2">I'm Pratik Chaudhary</h3>
-            <span className="inline-block text-accent-blue font-semibold text-lg mb-4">Full Stack Developer</span>
+          <div className="order-1 lg:order-2">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-100 mb-2">I'm Pratik Chaudhary</h3>
+            <span className="inline-block text-accent-blue font-semibold text-base sm:text-lg mb-3 sm:mb-4">Full Stack Developer</span>
 
-            <p className="text-slate-300 leading-relaxed mb-6">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-4 sm:mb-6">
               Dedicated Computer Science student with proven full-stack development expertise and hands-on experience building production-grade applications.
               Proficient in MERN Stack, Python, Java, and data science technologies with demonstrated ability to deliver scalable solutions for real-world clients.
               Strong foundation in software engineering principles, machine learning, and data-driven decision-making.
@@ -132,9 +132,9 @@ export function About() {
 
         {/* Dev Process - Film Strip */}
         <div>
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-black text-slate-100 mb-2">My Development Process</h3>
-            <p className="text-slate-300">Watch my workflow unfold step by step</p>
+          <div className="text-center mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-100 mb-2">My Development Process</h3>
+            <p className="text-sm sm:text-base text-slate-300">Watch my workflow unfold step by step</p>
           </div>
 
           <div className="relative max-w-7xl mx-auto">
@@ -142,44 +142,44 @@ export function About() {
               style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.5), inset 0 2px 0 rgba(255,255,255,0.05)' }}>
 
               {/* Film Perforations - Top */}
-              <div className="absolute top-0 left-0 right-0 h-6 bg-black z-20 overflow-hidden">
-                <div className={`flex items-center justify-between px-12 h-full ${animationStarted ? 'perforations-scroll-animation' : ''}`} style={{ width: '200%' }}>
+              <div className="absolute top-0 left-0 right-0 h-4 sm:h-6 bg-black z-20 overflow-hidden">
+                <div className={`flex items-center justify-between px-4 sm:px-12 h-full ${animationStarted ? 'perforations-scroll-animation' : ''}`} style={{ width: '200%' }}>
                   {[...Array(40)].map((_, i) => (
-                    <div key={i} className="w-4 h-3 bg-gray-800 rounded-sm border border-gray-700 flex-shrink-0" />
+                    <div key={i} className="w-3 h-2 sm:w-4 sm:h-3 bg-gray-800 rounded-sm border border-gray-700 flex-shrink-0" />
                   ))}
                 </div>
               </div>
 
               {/* Film Perforations - Bottom */}
-              <div className="absolute bottom-0 left-0 right-0 h-6 bg-black z-20 overflow-hidden">
-                <div className={`flex items-center justify-between px-12 h-full ${animationStarted ? 'perforations-scroll-animation' : ''}`} style={{ width: '200%' }}>
+              <div className="absolute bottom-0 left-0 right-0 h-4 sm:h-6 bg-black z-20 overflow-hidden">
+                <div className={`flex items-center justify-between px-4 sm:px-12 h-full ${animationStarted ? 'perforations-scroll-animation' : ''}`} style={{ width: '200%' }}>
                   {[...Array(40)].map((_, i) => (
-                    <div key={i} className="w-4 h-3 bg-gray-800 rounded-sm border border-gray-700 flex-shrink-0" />
+                    <div key={i} className="w-3 h-2 sm:w-4 sm:h-3 bg-gray-800 rounded-sm border border-gray-700 flex-shrink-0" />
                   ))}
                 </div>
               </div>
 
               {/* Film Frames */}
-              <div className="relative py-6 px-8 overflow-hidden h-64 max-w-full">
-                <div className={`flex transition-transform duration-1000 ease-in-out ${animationStarted ? 'film-scroll-animation' : ''}`} style={{ width: 'max-content', gap: '32px' }}>
-                  <div className="flex-shrink-0 w-80 h-52 bg-gray-800 rounded-lg border-2 border-gray-700 opacity-60 flex items-center justify-center">
-                    <div className="text-gray-400 font-mono tracking-wider">● START</div>
+              <div className="relative py-4 sm:py-6 px-4 sm:px-8 overflow-x-auto overflow-y-hidden h-56 sm:h-64 max-w-full scrollbar-hide">
+                <div className={`flex transition-transform duration-1000 ease-in-out ${animationStarted ? 'film-scroll-animation' : ''}`} style={{ width: 'max-content', gap: '16px' }}>
+                  <div className="flex-shrink-0 w-56 sm:w-80 h-44 sm:h-52 bg-gray-800 rounded-lg border-2 border-gray-700 opacity-60 flex items-center justify-center">
+                    <div className="text-gray-400 font-mono tracking-wider text-sm sm:text-base">● START</div>
                   </div>
 
                   {[...devProcess, ...devProcess].map((step, index) => (
                     <div
                       key={`${step.number}-${index}`}
-                      className={`flex-shrink-0 w-80 h-52 bg-background rounded-lg border-4 ${activeFrame >= (index % devProcess.length) ? `border-${step.color}` : 'border-gray-600'}`}
+                      className={`flex-shrink-0 w-56 sm:w-80 h-44 sm:h-52 bg-background rounded-lg border-4 ${activeFrame >= (index % devProcess.length) ? `border-${step.color}` : 'border-gray-600'}`}
                       style={{ boxShadow: '0 8px 16px rgba(0,0,0,0.3)' }}
                     >
-                      <div className="relative h-full p-6 flex flex-col justify-between">
-                        <div className="absolute -top-4 -left-4 w-12 h-12 bg-foreground text-background rounded-full flex items-center justify-center font-black z-10 text-lg"
+                      <div className="relative h-full p-4 sm:p-6 flex flex-col justify-between">
+                        <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-10 h-10 sm:w-12 sm:h-12 bg-foreground text-background rounded-full flex items-center justify-center font-black z-10 text-base sm:text-lg"
                           style={{ boxShadow: '0 6px 12px rgba(0,0,0,0.4)' }}>
                           {step.number}
                         </div>
                         <div>
-                          <h3 className="font-black text-xl leading-tight mb-4 text-foreground">{step.title}</h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                          <h3 className="font-black text-base sm:text-xl leading-tight mb-2 sm:mb-4 text-foreground">{step.title}</h3>
+                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-3 sm:line-clamp-none">{step.description}</p>
                         </div>
                         <div className="absolute left-1 top-1 bottom-1 w-px bg-gray-300/20" />
                         <div className="absolute right-1 top-1 bottom-1 w-px bg-gray-300/20" />
@@ -189,29 +189,29 @@ export function About() {
                     </div>
                   ))}
 
-                  <div className="flex-shrink-0 w-80 h-52 bg-gray-800 rounded-lg border-2 border-gray-700 opacity-60 flex items-center justify-center">
-                    <div className="text-gray-400 font-mono tracking-wider">● END</div>
+                  <div className="flex-shrink-0 w-56 sm:w-80 h-44 sm:h-52 bg-gray-800 rounded-lg border-2 border-gray-700 opacity-60 flex items-center justify-center">
+                    <div className="text-gray-400 font-mono tracking-wider text-sm sm:text-base">● END</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Stats bar */}
-            <div className="mt-8 text-center">
-              <div className="inline-flex items-center gap-6 bg-card/80 backdrop-blur-sm clean-border rounded-2xl px-8 py-4 subtle-shadow">
-                <div className="flex items-center gap-3">
+            <div className="mt-6 sm:mt-8 text-center px-2">
+              <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-card/80 backdrop-blur-sm clean-border rounded-2xl px-4 sm:px-8 py-3 sm:py-4 subtle-shadow">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                  <span className="text-sm font-semibold text-foreground">8+ Projects</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">8+ Projects</span>
                 </div>
-                <div className="w-px h-6 bg-border" />
-                <div className="flex items-center gap-3">
+                <div className="hidden xs:block w-px h-4 sm:h-6 bg-border" />
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                  <span className="text-sm font-semibold text-foreground">2+ Years Coding</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">2+ Years Coding</span>
                 </div>
-                <div className="w-px h-6 bg-border" />
-                <div className="flex items-center gap-3">
+                <div className="hidden xs:block w-px h-4 sm:h-6 bg-border" />
+                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-                  <span className="text-sm font-semibold text-foreground">MERN Expert</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">MERN Expert</span>
                 </div>
               </div>
             </div>
