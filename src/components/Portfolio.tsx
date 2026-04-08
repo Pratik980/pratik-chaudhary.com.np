@@ -1,14 +1,33 @@
 'use client'
 
-import { Github } from 'lucide-react'
+import { Github, ExternalLink } from 'lucide-react'
 
 const projects = [
+  {
+    title: 'SkillDurbar Learning Management System',
+    category: 'Client Project',
+    tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
+    description: 'Comprehensive e-learning platform featuring course catalog, interactive dashboard, mentoring, and dynamic learning paths to assist students in practical training and upskilling.',
+    github: 'https://github.com/Pratik980/skilldarbarLMS',
+    liveLink: 'https://skilldarbarlmss.netlify.app/',
+    image: 'https://skilldarbarlmss.netlify.app/assets/images/hero-bg.png', // Update with actual local image later if needed
+    color: 'accent-blue',
+  },
+  {
+    title: 'Hotel Grill Durbar',
+    category: 'Client Project',
+    tech: ['React.js', 'Tailwind CSS', 'Responsive UI', 'Web Development'],
+    description: 'A complete landing page and front-facing site for a premium hotel. Designed with modern aesthetics to showcase their rooms, services, and online presence directly to prospective clients.',
+    liveLink: 'https://www.hotelgrilldurbar.com.np/',
+    color: 'accent-emerald',
+  },
   {
     title: 'Skating Park Management System',
     category: 'MERN Stack',
     tech: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'Stripe API'],
     description: 'Production-grade skating park management platform actively used by a real client. Features automated session booking, real-time slot management, player tracking, and secure payment processing managing 500+ bookings monthly.',
     github: 'https://github.com/Pratik980/Skating-Park-Management',
+    liveLink: 'https://roshanskatingpark.netlify.app/login',
     color: 'accent-blue',
   },
   {
@@ -17,6 +36,7 @@ const projects = [
     tech: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'Payment Gateway'],
     description: 'Comprehensive e-learning platform for NEB exam preparation with video course delivery, progress tracking, secure payment processing with automated WhatsApp notifications, and scalable video streaming for 100+ hours of lessons.',
     github: 'https://github.com/Pratik980/prabin-institute-neb-courses',
+    liveLink: 'https://prabin-institute.netlify.app/',
     color: 'accent-purple',
   },
   {
@@ -111,7 +131,7 @@ export function Portfolio() {
               className="group relative bg-card clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 elevated-shadow hover:scale-[1.02] transition-all duration-300 flex flex-col"
             >
               {/* Category badge */}
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="flex items-center justify-between mb-3 sm:mb-4 relative z-10">
                 <span className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${colorMap[project.color]}`}>
                   {project.category}
                 </span>
@@ -119,13 +139,21 @@ export function Portfolio() {
               </div>
 
               {/* Title */}
-              <h3 className="text-lg sm:text-xl font-black text-foreground mb-2 sm:mb-3">{project.title}</h3>
+              <h3 className="text-lg sm:text-xl font-black text-foreground mb-2 sm:mb-3 relative z-10">{project.title}</h3>
+
+              {/* Optional Background Image */}
+              {'image' in project && typeof project.image === 'string' && (
+                <div 
+                  className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500 rounded-xl sm:rounded-2xl bg-cover bg-center"
+                  style={{ backgroundImage: `url(${project.image})` }}
+                />
+              )}
 
               {/* Description */}
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-5 flex-1 line-clamp-4 sm:line-clamp-none">{project.description}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-5 flex-1 line-clamp-4 sm:line-clamp-none relative z-10">{project.description}</p>
 
               {/* Tech Stack */}
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6 relative z-10">
                 {project.tech.map(t => (
                   <span key={t} className="text-[10px] sm:text-xs bg-background border border-border rounded-md px-1.5 sm:px-2 py-0.5 sm:py-1 text-muted-foreground font-medium">
                     {t}
@@ -134,15 +162,27 @@ export function Portfolio() {
               </div>
 
               {/* Links */}
-              <div className="flex items-center gap-3">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:opacity-80 gentle-animation"
-                >
-                  <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> View on GitHub
-                </a>
+              <div className="flex items-center gap-3 mt-auto pt-4 relative z-10">
+                {'github' in project && typeof project.github === 'string' && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-foreground text-background text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:opacity-80 gentle-animation"
+                  >
+                    <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> GitHub
+                  </a>
+                )}
+                {'liveLink' in project && typeof project.liveLink === 'string' && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 bg-primary text-primary-foreground text-xs sm:text-sm font-semibold px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:opacity-90 transition-all gentle-animation"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Live Demo
+                  </a>
+                )}
               </div>
             </div>
           ))}
