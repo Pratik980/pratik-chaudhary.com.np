@@ -1,54 +1,8 @@
 'use client'
 
 import { ExternalLink } from 'lucide-react'
-
-const certifications = [
-  {
-    title: 'MERN Stack Internship',
-    issuer: 'Bheema Infotech, Indore, India',
-    date: 'Nov 2025',
-    link: 'https://drive.google.com/file/d/1-V2ogiV3u5iumkEG806rrNsAjWclz24t/view?usp=sharing',
-    color: 'accent-purple',
-    subLinks: null,
-  },
-  {
-    title: 'MERN Stack Development',
-    issuer: 'Broadway Infosys, Kathmandu',
-    date: 'March 2025',
-    link: 'https://drive.google.com/file/d/1u31IUQS8PvX_q1RMDQCasQwv8pTe5HFn/view?usp=sharing',
-    color: 'accent-blue',
-    subLinks: null,
-  },
-  {
-    title: 'Design Thinking Certification',
-    issuer: 'Industry Certification',
-    date: 'March 2025',
-    link: 'https://drive.google.com/file/d/1B6rbz4vx7HGDkYUjcGEAjfo0zPQ6Hbrl/view?usp=sharing',
-    color: 'accent-purple',
-    subLinks: null,
-  },
-  {
-    title: 'ORACLE Dev: Database Developers',
-    issuer: 'Oracle Academy',
-    date: 'July 2023',
-    link: 'https://drive.google.com/file/d/1iNZPkP8osLsJm8na3cn111mG9ccCr_bm/view?usp=sharing',
-    color: 'accent-emerald',
-    subLinks: null,
-  },
-  {
-    title: 'Network Technician Career Path',
-    issuer: 'Cisco Networking Academy',
-    date: 'June 2023',
-    link: null,
-    color: 'accent-blue',
-    subLinks: [
-      { label: 'Networking Devices & Initial Configuration', url: 'https://drive.google.com/file/d/1yfL7geiQsny-vYQfR6SSRkuki49qOI1D/view?usp=drive_link' },
-      { label: 'Network Support and Security', url: 'https://drive.google.com/file/d/1aA9ITT-GBcT-vuJyQkKq4Atc3w-xvQl7/view?usp=drive_link' },
-      { label: 'Network Addressing & Troubleshooting', url: 'https://drive.google.com/file/d/1ObxtRZIMMbwaMYBeSlPAkrwckTNvGZ4m/view?usp=sharing' },
-      { label: 'Career Path Completion Certificate', url: 'https://drive.google.com/file/d/1svswNEdmB7DDGjXzwzJh0fF_1/view?usp=sharing' },
-    ],
-  },
-]
+import { useQuery } from '@tanstack/react-query'
+import { getCertifications } from '../api/portfolio'
 
 const colorMap: Record<string, string> = {
   'accent-blue': 'bg-accent-blue/10 text-accent-blue border-accent-blue/20',
@@ -62,6 +16,12 @@ const dotMap: Record<string, string> = {
 }
 
 export function Awards() {
+  const { data: certifications = [] } = useQuery({
+    queryKey: ['certifications'],
+    queryFn: getCertifications,
+  })
+
+  if (!certifications.length) return null
   return (
     <section id="certifications" className="relative py-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/15 to-background/70" />
@@ -96,13 +56,13 @@ export function Awards() {
                 {/* Top row */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <span className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${colorMap[cert.color]} mb-2 sm:mb-3 inline-block`}>
+                    <span className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border ${colorMap[cert.color_tag] || 'bg-accent/10 text-accent border-accent/20'} mb-2 sm:mb-3 inline-block`}>
                       {cert.date}
                     </span>
                     <h3 className="text-base sm:text-xl font-black text-foreground leading-tight">{cert.title}</h3>
                     <p className="text-xs sm:text-sm text-muted-foreground mt-1">{cert.issuer}</p>
                   </div>
-                  <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 flex-shrink-0 ${dotMap[cert.color]} animate-pulse`} />
+                  <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full mt-1 flex-shrink-0 ${dotMap[cert.color_tag] || 'bg-accent'} animate-pulse`} />
                 </div>
 
                 {/* Single link */}
@@ -118,9 +78,9 @@ export function Awards() {
                 )}
 
                 {/* Sub-links for multi-cert */}
-                {cert.subLinks && (
+                {cert.sub_links && (
                   <ul className="space-y-1.5 sm:space-y-2">
-                    {cert.subLinks.map((sub, i) => (
+                    {cert.sub_links.map((sub, i) => (
                       <li key={i}>
                         <a
                           href={sub.url}

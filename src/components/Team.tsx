@@ -3,8 +3,10 @@
 import taylorsImg from '@/assets/taylors.jpg'
 import omImg from '@/assets/Om.jpg'
 import trijuddaImg from '@/assets/trijudda_logo.jpg'
+import { useQuery } from '@tanstack/react-query'
+import { getEducation } from '@/api/portfolio'
 
-const educations = [
+const fallbackEducations = [
   {
     degree: 'Bachelor of Computer Science (Hons)',
     institution: 'IIMS College (Affiliated with Taylor\'s University, Malaysia)',
@@ -38,6 +40,21 @@ const educations = [
 ]
 
 export function Team() {
+  const { data: eduData } = useQuery({ queryKey: ['education'], queryFn: getEducation })
+
+  const educations = eduData?.length
+    ? eduData.map((e, i) => ({
+        degree: e.degree + (e.field_of_study ? ` in ${e.field_of_study}` : ''),
+        institution: e.institution,
+        location: e.location || '',
+        period: `${e.start_year} - ${e.end_year || 'Present'}`,
+        image: e.institution_logo_url || [taylorsImg, omImg, trijuddaImg][i % 3],
+        rotation: ['rotate-3', '-rotate-2', 'rotate-2'][i % 3],
+        crime: e.grade ? `GRADE: ${e.grade}` : 'ACHIEVEMENT',
+        bounty: e.end_year || e.start_year,
+      }))
+    : fallbackEducations
+
   return (
     <div className="relative py-16 sm:py-32 w-full" style={{
       overflow: 'visible',

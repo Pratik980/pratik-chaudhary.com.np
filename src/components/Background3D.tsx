@@ -200,11 +200,6 @@ export function Background3D() {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     isReducedMotionRef.current = motionQuery.matches
 
-    if (isReducedMotionRef.current) {
-      // Don't animate if user prefers reduced motion — just show static particles
-      return
-    }
-
     const handleResize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2) // Cap at 2x for perf
       const width = window.innerWidth
@@ -243,8 +238,10 @@ export function Background3D() {
     // Initialize
     handleResize()
 
-    // Start animation
-    animationFrameRef.current = requestAnimationFrame(() => animate(ctx))
+    // Start animation (skip if reduced motion)
+    if (!isReducedMotionRef.current) {
+      animationFrameRef.current = requestAnimationFrame(() => animate(ctx))
+    }
 
     // Event listeners
     window.addEventListener('resize', handleResize)

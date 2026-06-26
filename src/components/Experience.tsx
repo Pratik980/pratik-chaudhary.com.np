@@ -1,8 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
+import { getExperience } from '@/api/portfolio'
 
-const experiences = [
+const fallbackExperiences = [
   {
     company: 'Bheema Infotech Pvt. Ltd.',
     role: 'MERN Stack Developer Intern (Remote)',
@@ -35,6 +37,30 @@ const colorBorder: Record<string, string> = {
 }
 
 export function Experience() {
+  const { data: expData } = useQuery({ queryKey: ['experience'], queryFn: getExperience })
+
+  const fmtDate = (d) => {
+    if (!d) return ''
+    try {
+      return new Date(d).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+    } catch {
+      return ''
+    }
+  }
+  const experiences = expData?.length
+    ? expData.map((e, i) => ({
+        company: e.company,
+        company_logo_url: e.company_logo_url,
+        role: e.job_title,
+        period: `${fmtDate(e.start_date)} - ${e.is_current ? 'Present' : fmtDate(e.end_date)}`,
+        location: e.location,
+        employment_type: e.employment_type,
+        side: ['left', 'right'][i % 2],
+        color: ['accent-blue', 'accent-purple', 'accent-emerald'][i % 3],
+        description: e.description,
+      }))
+    : fallbackExperiences
+
   return (
     <section id="experience" className="relative py-16 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/10 to-background/70" />
@@ -75,16 +101,24 @@ export function Experience() {
                 {/* Card */}
                 <div className={`w-full md:w-5/12 bg-background border ${colorBorder[exp.color]} rounded-2xl p-6 elevated-shadow`}>
                   <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-black text-xl text-foreground">{exp.company}</h3>
-                      <p className="text-blue-500 font-semibold text-sm mt-0.5">{exp.role}</p>
+                    <div className="flex items-center gap-3">
+                      {exp.company_logo_url && (
+                        <img src={exp.company_logo_url} alt="" className="w-10 h-10 rounded object-contain bg-background" />
+                      )}
+                      <div>
+                        <h3 className="font-black text-xl text-foreground">{exp.company}</h3>
+                        <p className="text-blue-500 font-semibold text-sm mt-0.5">{exp.role}</p>
+                      </div>
                     </div>
-                    <div className={`w-3 h-3 rounded-full flex-shrink-0 mt-1.5 ${colorDot[exp.color]} animate-pulse`} />
+                    <div className="flex items-center gap-2">
+                      {exp.employment_type && <span className="text-[10px] bg-accent/30 px-2 py-0.5 rounded-full text-muted-foreground">{exp.employment_type}</span>}
+                      <div className={`w-3 h-3 rounded-full flex-shrink-0 mt-1.5 ${colorDot[exp.color]} animate-pulse`} />
+                    </div>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 font-medium">
                     📅 {exp.period} · 📍 {exp.location}
                   </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{exp.description}</p>
+                  <div className="text-sm text-muted-foreground leading-relaxed prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: exp.description }} />
                 </div>
 
                 {/* Center dot */}

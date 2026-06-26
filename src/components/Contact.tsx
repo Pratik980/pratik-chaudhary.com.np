@@ -1,12 +1,16 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { User, Mail, Phone, MessageSquare, Send } from 'lucide-react'
+import { getContactInfo, submitContactForm } from '@/api/portfolio'
 
 export function Contact() {
+  const { data: contactInfo } = useQuery({ queryKey: ['contact-info'], queryFn: getContactInfo })
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -15,18 +19,25 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
+    setErrorMsg('')
     try {
+      // Save to database first
+      await submitContactForm({ name: formData.name, email: formData.email, phone: formData.phone, message: formData.message, subject: "New Contact Form Submission - Pratik's Portfolio", status: 'new' })
+
+      // Then send email notification via Web3Forms
       const form = e.target as HTMLFormElement
-      const data = new FormData(form)
-      data.append('access_key', 'af53f1a0-b23e-483c-b82a-3286172da6a2')
-      data.append('subject', "New Contact Form Submission - Pratik's Portfolio")
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
-      if (res.ok) {
-        setSubmitted(true)
-        setFormData({ name: '', email: '', phone: '', message: '' })
+      const web3Data = new FormData(form)
+      web3Data.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY)
+      web3Data.append('subject', "New Contact Form Submission - Pratik's Portfolio")
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: web3Data })
+      if (!res.ok) {
+        console.error('Web3Forms email notification failed')
       }
+      setSubmitted(true)
+      setFormData({ name: '', email: '', phone: '', message: '' })
     } catch (err) {
       console.error(err)
+      setErrorMsg('Something went wrong. Please try again later.')
     } finally {
       setSubmitting(false)
     }
@@ -87,10 +98,11 @@ export function Contact() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Name */}
                     <div className="relative">
-                      <label className="block text-sm font-semibold text-foreground mb-2">Full Name</label>
+                      <label htmlFor="contact-name" className="block text-sm font-semibold text-foreground mb-2">Full Name</label>
                       <div className="relative">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
+                          id="contact-name"
                           type="text"
                           name="name"
                           value={formData.name}
@@ -104,10 +116,11 @@ export function Contact() {
 
                     {/* Email */}
                     <div className="relative">
-                      <label className="block text-sm font-semibold text-foreground mb-2">Email Address</label>
+                      <label htmlFor="contact-email" className="block text-sm font-semibold text-foreground mb-2">Email Address</label>
                       <div className="relative">
                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <input
+                          id="contact-email"
                           type="email"
                           name="email"
                           value={formData.email}
@@ -122,10 +135,11 @@ export function Contact() {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">Phone (Optional)</label>
+                    <label htmlFor="contact-phone" className="block text-sm font-semibold text-foreground mb-2">Phone (Optional)</label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <input
+                        id="contact-phone"
                         type="tel"
                         name="phone"
                         value={formData.phone}
@@ -138,10 +152,11 @@ export function Contact() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">Message</label>
+                    <label htmlFor="contact-message" className="block text-sm font-semibold text-foreground mb-2">Message</label>
                     <div className="relative">
                       <MessageSquare className="absolute left-4 top-4 w-4 h-4 text-muted-foreground" />
                       <textarea
+                        id="contact-message"
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
@@ -152,6 +167,12 @@ export function Contact() {
                       />
                     </div>
                   </div>
+
+                  {errorMsg && (
+                    <div className="text-red-500 text-sm text-center bg-red-500/10 rounded-lg py-2 px-4">
+                      {errorMsg}
+                    </div>
+                  )}
 
                   <button
                     type="submit"
@@ -168,29 +189,43 @@ export function Contact() {
 
         {/* Bottom Info */}
         <div className="text-center mt-8 sm:mt-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-5xl mx-auto">
             <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
               </div>
               <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Email</h4>
-              <p className="text-muted-foreground text-xs sm:text-sm">prtkcha980@gmail.com</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">{contactInfo?.email || 'prtkcha980@gmail.com'}</p>
             </div>
             <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-purple-500" />
               </div>
               <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Phone</h4>
-              <p className="text-muted-foreground text-xs sm:text-sm">+977 9762825200</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">{contactInfo?.phone || '+977 9762825200'}</p>
             </div>
-            <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow sm:col-span-2 md:col-span-1">
+            <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-500" />
               </div>
               <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">Location</h4>
-              <p className="text-muted-foreground text-xs sm:text-sm">Kalanki, Kathmandu, Nepal</p>
+              <p className="text-muted-foreground text-xs sm:text-sm">{contactInfo?.address || 'Kalanki, Kathmandu, Nepal'}</p>
             </div>
+            {contactInfo?.whatsapp && (
+              <div className="bg-background clean-border rounded-xl sm:rounded-2xl p-4 sm:p-6 subtle-shadow">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />
+                </div>
+                <h4 className="font-black text-foreground mb-1 sm:mb-2 text-sm sm:text-base">WhatsApp</h4>
+                <a href={`https://wa.me/${contactInfo.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground text-xs sm:text-sm hover:text-green-500">{contactInfo.whatsapp}</a>
+              </div>
+            )}
           </div>
+          {contactInfo?.map_embed_url && (
+            <div className="mt-6 max-w-4xl mx-auto rounded-xl overflow-hidden clean-border">
+              <iframe src={contactInfo.map_embed_url} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Location Map" />
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -3,8 +3,16 @@
 import { useEffect, useState } from 'react'
 import aboutImg from '@/assets/about.jpg'
 import { Download, MapPin, Mail } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { getAbout, getAboutStats, getHero } from '@/api/portfolio'
 
-const devProcess = [
+const borderColorMap: Record<string, string> = {
+  'accent-blue': 'border-accent-blue',
+  'accent-emerald': 'border-accent-emerald',
+  'accent-purple': 'border-accent-purple',
+}
+
+const fallbackDevProcess = [
   {
     number: '01',
     title: 'Requirement Analysis',
@@ -38,18 +46,29 @@ const devProcess = [
 ]
 
 export function About() {
+  const { data: about } = useQuery({ queryKey: ['about'], queryFn: getAbout })
+  const { data: stats } = useQuery({ queryKey: ['about-stats'], queryFn: getAboutStats })
+  const { data: hero } = useQuery({ queryKey: ['hero'], queryFn: getHero })
+
+  const bio = about?.bio || 'Dedicated Computer Science student with proven full-stack development expertise and hands-on experience building production-grade applications. Proficient in MERN Stack, Python, Java, and data science technologies with demonstrated ability to deliver scalable solutions for real-world clients. Strong foundation in software engineering principles, machine learning, and data-driven decision-making. Combines technical proficiency with digital marketing experience and collaborative mindset to create impactful, user-centered solutions. Committed to writing clean, maintainable code and solving complex problems in dynamic, innovation-driven environments.'
+  const displayName = about?.display_name || "I'm Pratik Chaudhary"
+  const displayRole = about?.role || 'Full Stack Developer'
+  const displayEmail = about?.email || 'prtkcha980@gmail.com'
+  const displayLocation = about?.location || 'Kalanki, Kathmandu, Nepal'
+
   const [activeFrame, setActiveFrame] = useState(-1)
   const [animationStarted, setAnimationStarted] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer1 = setTimeout(() => {
       setAnimationStarted(true)
-      devProcess.forEach((_, index) => {
+      fallbackDevProcess.forEach((_, index) => {
         setTimeout(() => {
           setActiveFrame(index)
         }, index * 2000 + 1000)
       })
     }, 3000)
+    return () => clearTimeout(timer1)
   }, [])
 
   return (
@@ -81,47 +100,43 @@ export function About() {
             <div className="relative">
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 scale-105 blur-2xl" />
               <div className="relative w-56 h-64 sm:w-72 sm:h-80 md:w-80 md:h-96 rounded-2xl overflow-hidden clean-border elevated-shadow">
-                <img
-                  src={aboutImg}
-                  alt="Pratik Chaudhary"
-                  className="w-full h-full object-cover"
-                />
+                  <img
+                    src={about?.profile_image_url || aboutImg}
+                    alt="Pratik Chaudhary"
+                    className="w-full h-full object-cover"
+                  />
               </div>
             </div>
           </div>
 
           {/* Content */}
           <div className="order-1 lg:order-2">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-100 mb-2">I'm Pratik Chaudhary</h3>
-            <span className="inline-block text-accent-blue font-semibold text-base sm:text-lg mb-3 sm:mb-4">Full Stack Developer</span>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-100 mb-2">{displayName}</h3>
+            <span className="inline-block text-accent-blue font-semibold text-base sm:text-lg mb-3 sm:mb-4">{displayRole}</span>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-4 sm:mb-6">
-              Dedicated Computer Science student with proven full-stack development expertise and hands-on experience building production-grade applications.
-              Proficient in MERN Stack, Python, Java, and data science technologies with demonstrated ability to deliver scalable solutions for real-world clients.
-              Strong foundation in software engineering principles, machine learning, and data-driven decision-making.
-              Combines technical proficiency with digital marketing experience and collaborative mindset to create impactful, user-centered solutions.
-              Committed to writing clean, maintainable code and solving complex problems in dynamic, innovation-driven environments.
-            </p>
+            <div className="text-sm sm:text-base text-slate-300 leading-relaxed mb-4 sm:mb-6 prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: bio }} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <div className="flex items-center gap-3 bg-card clean-border rounded-xl p-4">
                 <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
                 <div>
                   <p className="text-xs text-muted-foreground font-medium">Email</p>
-                  <p className="text-sm font-semibold text-foreground">prtkcha980@gmail.com</p>
+                  <p className="text-sm font-semibold text-foreground">{displayEmail}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-card clean-border rounded-xl p-4">
                 <MapPin className="w-5 h-5 text-purple-500 flex-shrink-0" />
                 <div>
                   <p className="text-xs text-muted-foreground font-medium">Location</p>
-                  <p className="text-sm font-semibold text-foreground">Kalanki, Kathmandu, Nepal</p>
+                  <p className="text-sm font-semibold text-foreground">{displayLocation}</p>
                 </div>
               </div>
             </div>
 
             <a
-              href="/CV.pdf"
+              href={hero?.resume_url || '/CV.pdf'}
+              target="_blank"
+              rel="noopener noreferrer"
               download="Pratik_Chaudhary_CV.pdf"
               className="inline-flex items-center gap-2 bg-foreground text-background font-semibold px-6 py-3 rounded-lg hover:opacity-80 gentle-animation"
             >
@@ -166,10 +181,10 @@ export function About() {
                     <div className="text-gray-400 font-mono tracking-wider text-sm sm:text-base">● START</div>
                   </div>
 
-                  {[...devProcess, ...devProcess].map((step, index) => (
+                  {[...fallbackDevProcess, ...fallbackDevProcess].map((step, index) => (
                     <div
                       key={`${step.number}-${index}`}
-                      className={`flex-shrink-0 w-56 sm:w-80 h-44 sm:h-52 bg-background rounded-lg border-4 ${activeFrame >= (index % devProcess.length) ? `border-${step.color}` : 'border-gray-600'}`}
+                      className={`flex-shrink-0 w-56 sm:w-80 h-44 sm:h-52 bg-background rounded-lg border-4 ${activeFrame >= (index % fallbackDevProcess.length) ? borderColorMap[step.color] || 'border-accent-blue' : 'border-gray-600'}`}
                       style={{ boxShadow: '0 8px 16px rgba(0,0,0,0.3)' }}
                     >
                       <div className="relative h-full p-4 sm:p-6 flex flex-col justify-between">
@@ -201,17 +216,17 @@ export function About() {
               <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-card/80 backdrop-blur-sm clean-border rounded-2xl px-4 sm:px-8 py-3 sm:py-4 subtle-shadow">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">8+ Projects</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">{(stats?.[0]?.value ? `${stats[0].label} ${stats[0].value}` : stats?.[0]?.label) || '8+ Projects'}</span>
                 </div>
                 <div className="hidden xs:block w-px h-4 sm:h-6 bg-border" />
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">2+ Years Coding</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">{(stats?.[1]?.value ? `${stats[1].label} ${stats[1].value}` : stats?.[1]?.label) || '2+ Years Coding'}</span>
                 </div>
                 <div className="hidden xs:block w-px h-4 sm:h-6 bg-border" />
                 <div className="flex items-center gap-2 sm:gap-3">
                   <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">MERN Expert</span>
+                  <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">{(stats?.[2]?.value ? `${stats[2].label} ${stats[2].value}` : stats?.[2]?.label) || 'MERN Expert'}</span>
                 </div>
               </div>
             </div>

@@ -1,11 +1,13 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import portfolioImg from '@/assets/portfolio.png'
+import { getHero, getSocialLinks, getNavbar } from '@/api/portfolio'
 
-const typingRoles = [
+const fallbackRoles = [
   'Full Stack Developer',
   'MERN Stack Developer',
   'Python Developer',
@@ -14,12 +16,18 @@ const typingRoles = [
 ]
 
 export function Hero() {
+  const { data: hero } = useQuery({ queryKey: ['hero'], queryFn: getHero })
+  const { data: navbar } = useQuery({ queryKey: ['navbar'], queryFn: getNavbar })
+  const { data: socialsData } = useQuery({ queryKey: ['socials'], queryFn: getSocialLinks })
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [displayText, setDisplayText] = useState('')
   const [roleIndex, setRoleIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+
+  const typingRoles = hero?.tagline?.split(/[,\n]+/).map(s => s.trim()).filter(Boolean) ?? fallbackRoles
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -64,7 +72,7 @@ export function Hero() {
     return () => clearTimeout(timer)
   }, [charIndex, isDeleting, roleIndex])
 
-  const navLinks = [
+  const fallbackNavLinks = [
     { href: '#about', label: 'About' },
     { href: '#skills', label: 'Skills' },
     { href: '#education', label: 'Education' },
@@ -74,13 +82,24 @@ export function Hero() {
     { href: '#contact', label: 'Contact' },
   ]
 
-  const socials = [
-    { href: 'https://www.linkedin.com/in/pratik-chaudhary-web/', icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
-    { href: 'https://github.com/Pratik980', icon: <Github className="w-5 h-5" />, label: 'GitHub' },
-    { href: 'https://x.com/PraTik_980', icon: <Twitter className="w-5 h-5" />, label: 'Twitter' },
-    { href: 'https://t.me/pratik_web', icon: <Send className="w-5 h-5" />, label: 'Telegram' },
-    { href: 'https://www.instagram.com/ig_pratik0p/', icon: <Instagram className="w-5 h-5" />, label: 'Instagram' },
-  ]
+  const navLinks = navbar?.nav_links?.length
+    ? navbar.nav_links.map((l) => ({ href: l.href, label: l.label }))
+    : fallbackNavLinks
+
+  const iconMap = { Github, Linkedin, Twitter, Send, Instagram } as const
+
+  const socials = socialsData?.length
+    ? socialsData.map((s) => {
+        const Icon = iconMap[s.icon as keyof typeof iconMap]
+        return { href: s.url, icon: Icon ? <Icon className="w-5 h-5" /> : null, label: s.platform }
+      }).filter(s => s.icon)
+    : [
+        { href: 'https://www.linkedin.com/in/pratik-chaudhary-web/', icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
+        { href: 'https://github.com/Pratik980', icon: <Github className="w-5 h-5" />, label: 'GitHub' },
+        { href: 'https://x.com/PraTik_980', icon: <Twitter className="w-5 h-5" />, label: 'Twitter' },
+        { href: 'https://t.me/pratik_web', icon: <Send className="w-5 h-5" />, label: 'Telegram' },
+        { href: 'https://www.instagram.com/ig_pratik0p/', icon: <Instagram className="w-5 h-5" />, label: 'Instagram' },
+      ]
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
@@ -103,10 +122,15 @@ export function Hero() {
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center cursor-pointer"
+              className="flex items-center cursor-pointer gap-2"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              <span className="font-orbitron text-2xl font-black tracking-widest bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent hover:from-cyan-500 hover:via-blue-500 hover:to-purple-500 transition-all duration-500">PRATIK</span>
+              {navbar?.logo_image_url ? (
+                <img src={navbar.logo_image_url} alt="Logo" className="h-8 w-auto object-contain" />
+              ) : null}
+              <span className="font-orbitron text-2xl font-black tracking-widest bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent hover:from-cyan-500 hover:via-blue-500 hover:to-purple-500 transition-all duration-500">
+                {navbar?.logo_text || 'PRATIK'}
+              </span>
             </motion.div>
 
             {/* Desktop Nav */}
@@ -125,12 +149,12 @@ export function Hero() {
             {/* Right: CTA + Mobile */}
             <div className="flex items-center space-x-3">
               <motion.a
-                href="#contact"
+                href={hero?.cta_primary_url || '#contact'}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="hidden sm:block bg-accent-blue text-white font-semibold px-5 py-2.5 rounded-md hover:opacity-90 gentle-animation text-sm"
               >
-                Hire Me
+                {hero?.cta_primary_label || 'Hire Me'}
               </motion.a>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -177,8 +201,8 @@ export function Hero() {
                 {link.label}
               </a>
             ))}
-            <a href="#contact" className="mt-4 bg-accent-blue text-background font-semibold px-6 py-3 rounded-lg text-center" onClick={() => setIsMobileMenuOpen(false)}>
-              Hire Me
+            <a href={hero?.cta_primary_url || '#contact'} className="mt-4 bg-accent-blue text-background font-semibold px-6 py-3 rounded-lg text-center" onClick={() => setIsMobileMenuOpen(false)}>
+              {hero?.cta_primary_label || 'Hire Me'}
             </a>
           </div>
         </div>
@@ -202,8 +226,14 @@ export function Hero() {
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight text-slate-100 mb-4">
                 Hi There,<br />
-                I'm <span className="text-accent-blue">Pratik</span>{' '}
-                <span className="text-slate-100">Chaudhary</span>
+                I'm{' '}
+                {hero?.name ? (
+                  <><span className="text-accent-blue">{hero.name.split(' ')[0]}</span>{' '}
+                  <span className="text-slate-100">{hero.name.split(' ').slice(1).join(' ')}</span></>
+                ) : (
+                  <><span className="text-accent-blue">Pratik</span>{' '}
+                  <span className="text-slate-100">Chaudhary</span></>
+                )}
               </h1>
 
               <div className="text-base sm:text-xl md:text-2xl text-slate-300 mb-6 sm:mb-8 min-h-[2rem]">
@@ -214,24 +244,24 @@ export function Hero() {
               </div>
 
               <p className="text-sm sm:text-base text-slate-300 mb-6 sm:mb-8 max-w-lg leading-relaxed px-1">
-                Dedicated Computer Science student with proven full-stack development expertise. Proficient in MERN Stack, Python, Java, and data science technologies. Combines technical proficiency with digital marketing experience to create impactful, user-centered solutions.
+                {hero?.subtitle || 'Dedicated Computer Science student with proven full-stack development expertise. Proficient in MERN Stack, Python, Java, and data science technologies. Combines technical proficiency with digital marketing experience to create impactful, user-centered solutions.'}
               </p>
 
               <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10 w-full xs:w-auto">
                 <motion.a
-                  href="#about"
+                  href={hero?.cta_secondary_url || '#about'}
                   whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   className="bg-accent-blue text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:opacity-90 gentle-animation text-sm sm:text-base text-center w-full xs:w-auto"
                 >
-                  About Me ↓
+                  {hero?.cta_secondary_label || 'About Me'} ↓
                 </motion.a>
                 <motion.a
-                  href="/CV.pdf"
+                  href={hero?.resume_url || '/CV.pdf'}
                   download="Pratik_Chaudhary_CV.pdf"
                   whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   className="bg-background clean-border text-foreground font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-md hover:bg-card gentle-animation text-sm sm:text-base text-center w-full xs:w-auto"
                 >
-                  Resume →
+                  {hero?.cta_primary_label || 'Resume'} →
                 </motion.a>
               </div>
 
@@ -265,7 +295,7 @@ export function Hero() {
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 via-purple-500/10 to-cyan-500/20 scale-110 blur-2xl" />
                 <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden clean-border elevated-shadow">
                   <img
-                    src={portfolioImg}
+                    src={hero?.profile_image_url || portfolioImg}
                     alt="Pratik Chaudhary - Full Stack Developer"
                     className="w-full h-full object-cover"
                   />
@@ -278,7 +308,7 @@ export function Hero() {
                 >
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-                    <span className="text-sm font-semibold text-foreground">MERN Stack Dev</span>
+                    <span className="text-sm font-semibold text-foreground">{typingRoles[0] || 'MERN Stack Dev'}</span>
                   </div>
                 </motion.div>
                 <motion.div

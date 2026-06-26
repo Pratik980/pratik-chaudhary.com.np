@@ -8,6 +8,12 @@ export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      "/admin": {
+        target: "http://localhost:5174",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [react()],
   resolve: {

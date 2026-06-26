@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getSkills } from '@/api/portfolio'
 
-const skills = [
+const fallbackSkills = [
   { name: 'ReactJS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
   { name: 'ExpressJS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' },
   { name: 'NodeJS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
@@ -40,6 +42,15 @@ export function Services() {
     const timer = setTimeout(() => setIsVisible(true), 300)
     return () => clearTimeout(timer)
   }, [])
+
+  const { data: skillData } = useQuery({ queryKey: ['skills'], queryFn: getSkills })
+
+  const skills = skillData?.length
+    ? skillData.flatMap((cat) => cat.skills ?? []).map((s) => ({
+        name: s.name,
+        icon: s.icon_url || ''
+      }))
+    : fallbackSkills
 
   return (
     <section id="skills" className="relative py-20" style={{

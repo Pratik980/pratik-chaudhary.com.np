@@ -1,8 +1,10 @@
 'use client'
 
 import { Github, ExternalLink } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { getProjects } from '@/api/portfolio'
 
-const projects = [
+const fallbackProjects = [
   {
     title: 'SkillDurbar Learning Management System',
     category: 'Client Project',
@@ -101,6 +103,21 @@ const dotMap: Record<string, string> = {
 }
 
 export function Portfolio() {
+  const { data: projectsData } = useQuery({ queryKey: ['projects'], queryFn: getProjects })
+
+  const projects = projectsData?.length
+    ? projectsData.map((p, i) => ({
+        title: p.title,
+        category: p.category || p.short_description || '',
+        tech: p.tech_stack || [],
+        description: p.full_description || p.short_description || '',
+        github: p.github_url || undefined,
+        liveLink: p.live_url || undefined,
+        image: p.thumbnail_url || undefined,
+        color: p.color_tag || ['accent-blue', 'accent-purple', 'accent-emerald'][i % 3],
+      }))
+    : fallbackProjects
+
   return (
     <section id="portfolio" className="relative py-16 sm:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-card/10 to-background/70" />
@@ -150,7 +167,7 @@ export function Portfolio() {
               )}
 
               {/* Description */}
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-5 flex-1 line-clamp-4 sm:line-clamp-none relative z-10">{project.description}</p>
+              <div className="text-xs sm:text-sm text-muted-foreground leading-relaxed mb-4 sm:mb-5 flex-1 line-clamp-4 sm:line-clamp-none relative z-10 prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: project.description }} />
 
               {/* Tech Stack */}
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6 relative z-10">
