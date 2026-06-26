@@ -1,0 +1,250 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins - ATS optimized
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\setlength{\tabcolsep}{0in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% Section formatting - improved spacing
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-3pt}]
+
+% Custom commands with optimized spacing
+\newcommand{\resumeItem}[1]{
+  \item\small\justifying{#1}\vspace{-2pt}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-3pt}} 
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=0pt, parsep=1pt, topsep=1pt, partopsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Pratik Chaudhary} \\ \vspace{3pt}
+    \small \faPhone\ +977-9762825200 $|$ 
+    \href{mailto:prtkcha980@gmail.com}{\faEnvelope\ prtkcha980@gmail.com} $|$ 
+    \faMapMarker\ Kalanki, Kathmandu, Nepal \\
+    \href{https://github.com/Pratik980}{\faGithub\ GitHub} $|$
+    \href{https://www.linkedin.com/in/pratik-chaudhary-web/}{\faLinkedin\ LinkedIn}
+\end{center}
+
+%-----------PROFESSIONAL SUMMARY-----------
+\section{Professional Summary}
+\justifying
+\small{Full-stack MERN developer with hands-on experience building production-grade web applications for real clients. Proficient in MongoDB, Express.js, React.js, and Node.js with proven ability to deliver scalable, feature-rich solutions. Strong foundation in RESTful API design, database architecture, authentication systems, payment integration, and responsive UI development. Built and deployed multiple live applications used in real-world operations, including booking and e-learning systems. Currently working as MERN Stack Developer Intern at Bheema Infotech, creating enterprise-level applications with modern JavaScript technologies.}
+\vspace{2pt}
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Frontend Development}{: React.js, JavaScript (ES6+), JSX, HTML5, CSS3, Tailwind CSS, Responsive Design, Modern CSS, Redux Basics} \\
+     \textbf{Backend Development}{: Node.js, Express.js, RESTful APIs, JWT Authentication, Role-Based Access Control, Session Management, API Design \& Integration} \\
+     \textbf{Database}{: MongoDB, Mongoose, Database Design, Schema Modeling, Query Optimization, Indexing, Data Validation} \\
+     \textbf{Integrations \& Libraries}{: Stripe API, Payment Gateway Integration, Chart.js, OAuth, Notification APIs} \\
+     \textbf{Development Tools}{: Git/GitHub, VS Code, Postman, npm} \\
+     \textbf{Cloud \& Deployment}{: Netlify, Vercel, Render, Railway, Environment Variables, CI/CD Basics} \\
+     \textbf{Methodologies}{: Version Control, Code Review, Agile Collaboration, Design Thinking}
+    }}
+ \end{itemize}
+\vspace{2pt}
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {MERN Stack Developer Intern}{Nov 2025 -- Jan 2026}
+      {Bheema Infotech Pvt. Ltd. (Remote)}{Indore, Madhya Pradesh, India}
+      \resumeItemListStart
+        \resumeItem{Developed production-ready full-stack web applications using MongoDB, Express.js, React.js, and Node.js}
+        \resumeItem{Architected and implemented RESTful APIs with JWT authentication, role-based access control, and robust input validation}
+        \resumeItem{Optimized MongoDB queries and schema design, improving application performance by 40\%}
+        \resumeItem{Built responsive and accessible React.js interfaces using reusable component architecture}
+        \resumeItem{Integrated third-party services including Stripe payment gateway, OAuth authentication, and notification APIs}
+        \resumeItem{Collaborated with cross-functional teams using Git workflows, code reviews, and Agile practices}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+\vspace{2pt}
+
+%-----------PROJECTS-----------
+\section{Technical Projects}
+  \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{SkillDurbar Learning Management System} $|$ \emph{MERN Stack, Multi-Module E-Learning}}{\href{https://skilldarbarlmss.netlify.app/}{Live Demo} $|$ \href{https://github.com/Pratik980/skilldarbarLMS}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Developed a comprehensive LMS platform with course catalog, mentoring modules, dashboards, and role-specific flows}
+        \resumeItem{Implemented scalable MERN architecture supporting dynamic learning paths and modular content delivery}
+        \resumeItem{Built responsive UI and reusable frontend components to improve usability across desktop and mobile}
+        \resumeItem{Technologies: MongoDB, Express.js, React.js, Node.js, Tailwind CSS}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Hotel Grill Durbar} $|$ \emph{Client Project, React.js Frontend}}{\href{https://www.hotelgrilldurbar.com.np/}{Live Demo}}
+      \resumeItemListStart
+        \resumeItem{Developed a modern business website and landing experience for a premium hotel to strengthen online presence}
+        \resumeItem{Designed responsive UI sections for rooms, services, and customer engagement optimized for all screen sizes}
+        \resumeItem{Implemented clean frontend architecture with reusable components and performance-focused rendering}
+        \resumeItem{Collaborated on client requirements translation into production-ready pages with polished visual presentation}
+        \resumeItem{Technologies: React.js, Tailwind CSS, Responsive UI, Web Development}
+      \resumeItemListEnd
+  
+    \resumeProjectHeading
+      {\textbf{Skating Park Management System} $|$ \emph{MERN Stack, Payment Integration, Real-time Management}}{\href{https://roshanskatingpark.netlify.app/login}{Live Demo} $|$ \href{https://github.com/Pratik980/Skating-Park-Management}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Engineered production-grade skating park management platform actively used by real client for daily operations}
+        \resumeItem{Implemented automated session booking with real-time slot management, player tracking, and conflict prevention}
+        \resumeItem{Designed admin dashboard managing 500+ bookings monthly, customer records, and financial transactions}
+        \resumeItem{Built secure payment processing with Stripe API integration and transaction logging}
+        \resumeItem{Technologies: MongoDB, Express.js, React.js, Node.js, JWT, Stripe API}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Prabin Institute Online Learning Platform} $|$ \emph{MERN Stack, Video Streaming, Payment Gateway}}{\href{https://prabin-institute.netlify.app/}{Live Demo} $|$ \href{https://github.com/Pratik980/prabin-institute-neb-courses}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Built comprehensive e-learning platform for NEB exam preparation with video course delivery and progress tracking}
+        \resumeItem{Integrated secure payment processing and automated WhatsApp notifications with admin approval workflows}
+        \resumeItem{Developed scalable content system delivering 100+ hours of educational videos}
+        \resumeItem{Implemented user authentication, enrollment management, and responsive UI for better learner experience}
+        \resumeItem{Technologies: MongoDB, Express.js, React.js, Node.js, Payment Gateway, Notification System}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Mini Amazon E-Commerce Platform} $|$ \emph{MERN Stack, Full-Stack Development}}{\href{https://github.com/Pratik980/Mini-Amazon-MERN-Stack-E-Commerce-Application}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Developed complete e-commerce application with user authentication, product catalog, shopping cart, and order management}
+        \resumeItem{Created admin dashboard for inventory management, user administration, order tracking, and sales insights}
+        \resumeItem{Implemented secure JWT-based authentication with role-based access control and password encryption}
+        \resumeItem{Built RESTful APIs for product CRUD, user management, and order transaction processing}
+        \resumeItem{Technologies: MongoDB, Express.js, React.js, Node.js, JWT, bcrypt, Redux}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{URJA Smart Energy Monitoring Platform} $|$ \emph{Node.js, MongoDB, Express.js, Analytics}}{\href{https://github.com/Pratik980/URJA---Smart-Energy-Analytics-Platform}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Designed intelligent energy monitoring system with real-time consumption insights and optimization analytics}
+        \resumeItem{Built interactive dashboard with Chart.js visualizing usage patterns and sustainability metrics}
+        \resumeItem{Developed backend APIs for energy data ingestion, user management, and analytics reporting}
+        \resumeItem{Implemented authentication and authorization for secure access to consumption data}
+        \resumeItem{Technologies: Node.js, Express.js, MongoDB, Chart.js, RESTful APIs}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{GharNirman AI Contractor Evaluation System} $|$ \emph{Node.js, MongoDB, Express.js, Machine Learning}}{\href{https://github.com/Pratik980/GharNirman}{GitHub}}
+      \resumeItemListStart
+        \resumeItem{Developed AI-assisted bid evaluation platform for contractor proposal analysis and recommendation}
+        \resumeItem{Automated cost estimation workflows to support data-driven contractor selection decisions}
+        \resumeItem{Designed MongoDB schemas for bids, contractor profiles, and evaluation metrics with efficient retrieval}
+        \resumeItem{Built Express.js APIs for bid submission, evaluation processing, and result delivery}
+        \resumeItem{Technologies: Node.js, Express.js, MongoDB, Mongoose, Random Forest Algorithm}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+\vspace{2pt}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {IIMS College (Affiliated with Taylor's University, Malaysia)}{Dhobidhara, Kathmandu}
+      {Bachelor of Computer Science (Hons) -- Currently Pursuing}{2023 -- Present}
+      \resumeItemListStart
+        \resumeItem{Relevant Coursework: Data Structures \& Algorithms, Web Technologies, Database Systems, Software Engineering}
+        \resumeItem{Additional: Object-Oriented Programming, Operating Systems, Computer Networks, Machine Learning}
+      \resumeItemListEnd
+    \resumeSubheading
+      {Om National College}{Birgunj, Nepal}
+      {Higher Secondary Certificate (NEB) -- Science Stream (Computer Science)}{2020 -- 2022}
+    \resumeSubheading
+      {Trijuddha Mahabir Prasad Raghubir Ram Secondary School}{Birgunj, Nepal}
+      {Secondary School Certificate}{2016 -- 2020}
+  \resumeSubHeadingListEnd
+\vspace{2pt}
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications \& Professional Training}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {MERN Stack Development -- Comprehensive Full-Stack Training \href{https://drive.google.com/file/d/1u31IUQS8PvX_q1RMDQCasQwv8pTe5HFn/view?usp=sharing}{\textcolor{black}{\faFilePdf}}}{March 2025}
+      {Broadway Infosys}{Kathmandu, Nepal}
+      
+    \resumeSubheading
+      {MERN Stack Internship Certificate \href{https://drive.google.com/file/d/1-V2ogiV3u5iumkEG806rrNsAjWclz24t/view?usp=sharing}{\textcolor{black}{\faFilePdf}}}{Nov 2025}
+      {Bheema Infotech Pvt. Ltd.}{Indore, India}
+      
+    \resumeSubheading
+      {Design Thinking Certification \href{https://drive.google.com/file/d/1B6rbz4vx7HGDkYUjcGEAjfo0zPQ6Hbrl/view?usp=sharing}{\textcolor{black}{\faFilePdf}}}{March 2025}
+      {Industry Certification}{}
+      
+  \resumeSubHeadingListEnd
+\vspace{2pt}
+
+%-----------ADDITIONAL SKILLS-----------
+\section{Additional Competencies}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Soft Skills}{: Team Collaboration, Technical Communication, Problem-Solving, Adaptability, Project Ownership} \\
+     \textbf{Languages}{: English (Fluent), Nepali (Native), Hindi (Intermediate), Bhojpuri (Basic)}
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+\end{document}
