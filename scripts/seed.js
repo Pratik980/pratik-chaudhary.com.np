@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 config({ path: resolve(__dirname, '..', '.env') })
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://mpketcmsusyohnjbkoyu.supabase.co'
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wa2V0Y21zdXN5b2huamJrb3l1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTc2MjQ4MCwiZXhwIjoyMDk3MzM4NDgwfQ.nQf7xiAqZPGchsGPGj_yoo8MR-FppEUNMEthYYDlMzI'
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase credentials')
