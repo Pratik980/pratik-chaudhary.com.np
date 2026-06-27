@@ -37,7 +37,7 @@ git clone https://github.com/Pratik980/portfolio.git
 # Step 2: Navigate to the project directory
 cd portfolio
 
-# Step 3: Install dependencies
+# Step 3: Install the dependencies
 npm install
 
 # Step 4: Start the development server
