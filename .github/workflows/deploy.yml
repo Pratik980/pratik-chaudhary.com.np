@@ -42,6 +42,9 @@ jobs:
           npm ci
           npm run build
           cp -r dist ../dist/admin
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: SPA fallback for admin
         run: cp dist/admin/index.html dist/admin/404.html
