@@ -4,6 +4,8 @@ import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import SortableList from '../../components/SortableList'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save, Eye, EyeOff } from 'lucide-react'
 
 const blank = { icon: '', title: '', description: '', display_order: 0, is_visible: true }
@@ -15,7 +17,7 @@ export default function ServicesEditor() {
   const [form, setForm] = useState(blank)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['services'],
     queryFn: async () => {
       const { data } = await supabase.from('services').select('*').order('display_order')
@@ -23,6 +25,9 @@ export default function ServicesEditor() {
     },
   })
   useEffect(() => { if (data) setItems(data) }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const openForm = (item) => {
     setForm(item ? { ...item } : { ...blank, display_order: items.length })

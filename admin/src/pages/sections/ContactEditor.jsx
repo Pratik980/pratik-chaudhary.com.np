@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import { Save } from 'lucide-react'
 import DataTable from '../../components/DataTable'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 
 const blank = { email: '', phone: '', whatsapp: '', address: '', map_embed_url: '' }
 
@@ -16,7 +18,7 @@ export default function ContactEditor() {
   const [viewMsg, setViewMsg] = useState(null)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data: contactData } = useQuery({
+  const { data: contactData, isLoading: loading1, isError: error1, error: err1 } = useQuery({
     queryKey: ['contact-info'],
     queryFn: async () => {
       const { data } = await supabase.from('contact_info').select('*').limit(1).maybeSingle()
@@ -25,7 +27,7 @@ export default function ContactEditor() {
   })
   useEffect(() => { if (contactData) setForm(contactData) }, [contactData])
 
-  const { data: subData } = useQuery({
+  const { data: subData, isLoading: loading2, isError: error2, error: err2 } = useQuery({
     queryKey: ['contact-submissions'],
     queryFn: async () => {
       const { data } = await supabase.from('contact_submissions').select('*').order('created_at', { ascending: false })
@@ -33,6 +35,9 @@ export default function ContactEditor() {
     },
   })
   useEffect(() => { if (subData) setSubmissions(subData) }, [subData])
+
+  if (loading1 || loading2) return <LoadingSpinner text="Loading..." />
+  if (error1 || error2) return <ErrorMessage message={(err1 || err2)?.message || 'Failed to load'} />
 
   const saveInfo = async () => {
     const existing = await supabase.from('contact_info').select('id').limit(1).maybeSingle()

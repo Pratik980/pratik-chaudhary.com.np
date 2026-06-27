@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import {
   LayoutDashboard, User, Code2, FolderGit2, Briefcase, GraduationCap,
@@ -30,13 +30,13 @@ const navItems = [
 export default function Sidebar({ collapsed, onToggle }) {
   const [unreadCount, setUnreadCount] = useState(0)
 
-  const fetchUnread = async () => {
+  const fetchUnread = useCallback(async () => {
     const { count } = await supabase
       .from('contact_submissions')
       .select('*', { count: 'exact', head: true })
       .eq('status', 'new')
     setUnreadCount(count || 0)
-  }
+  }, [])
 
   useEffect(() => {
     fetchUnread()
@@ -45,7 +45,7 @@ export default function Sidebar({ collapsed, onToggle }) {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'contact_submissions' }, fetchUnread)
       .subscribe()
     return () => { supabase.removeChannel(channel) }
-  }, [])
+  }, [fetchUnread])
 
   return (
     <aside className={cn(

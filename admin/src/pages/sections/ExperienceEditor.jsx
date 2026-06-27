@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import ImageUpload from '../../components/ImageUpload'
 import RichTextEditor from '../../components/RichTextEditor'
 import SortableList from '../../components/SortableList'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save, Trash2 } from 'lucide-react'
 
 const blank = { job_title: '', company: '', company_logo_url: '', location: '', employment_type: 'Full-time', start_date: '', end_date: '', is_current: false, description: '', display_order: 0 }
@@ -17,7 +19,7 @@ export default function ExperienceEditor() {
   const [form, setForm] = useState(blank)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['experience'],
     queryFn: async () => {
       const { data } = await supabase.from('experience').select('*').order('display_order')
@@ -25,6 +27,9 @@ export default function ExperienceEditor() {
     },
   })
   useEffect(() => { if (data) setItems(data) }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const openForm = (item) => {
     setForm(item ? { ...item } : { ...blank, display_order: items.length })

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import ImageUpload from '../../components/ImageUpload'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Trash2, Edit3, ChevronDown, ChevronRight, Save } from 'lucide-react'
 
 export default function SkillsEditor() {
@@ -17,13 +19,16 @@ export default function SkillsEditor() {
   const [skillForm, setSkillForm] = useState({ name: '', category_id: '', icon_url: '', proficiency: 75, display_order: 0, is_visible: true })
   const [showAddCategory, setShowAddCategory] = useState(false)
 
-  const { data: categories } = useQuery({
+  const { data: categories, isLoading, isError, error } = useQuery({
     queryKey: ['skill-categories'],
     queryFn: async () => {
       const { data } = await supabase.from('skill_categories').select('*, skills(*)').order('display_order')
       return data || []
     },
   })
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const addCategory = async () => {
     if (!newCategoryName) return toast.error('Enter a category name')

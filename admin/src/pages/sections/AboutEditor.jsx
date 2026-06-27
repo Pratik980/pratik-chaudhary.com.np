@@ -6,6 +6,8 @@ import ImageUpload from '../../components/ImageUpload'
 import RichTextEditor from '../../components/RichTextEditor'
 import SortableList from '../../components/SortableList'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Save, Plus, Trash2 } from 'lucide-react'
 
 const defaultAbout = { bio: '', profile_image_url: '', display_name: '', role: '', email: '', location: '' }
@@ -17,7 +19,7 @@ export default function AboutEditor() {
   const [deleteId, setDeleteId] = useState(null)
   const [newStat, setNewStat] = useState({ label: '', value: '' })
 
-  const { data } = useQuery({
+  const { data, isLoading: loading1, isError: error1, error: err1 } = useQuery({
     queryKey: ['about'],
     queryFn: async () => {
       const { data } = await supabase.from('about').select('*').limit(1).maybeSingle()
@@ -25,7 +27,7 @@ export default function AboutEditor() {
     },
   })
 
-  const { data: statsData } = useQuery({
+  const { data: statsData, isLoading: loading2, isError: error2, error: err2 } = useQuery({
     queryKey: ['about-stats'],
     queryFn: async () => {
       const { data } = await supabase.from('about_stats').select('*').order('display_order')
@@ -50,6 +52,9 @@ export default function AboutEditor() {
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['about'] }); toast.success('About saved!') },
     onError: (e) => toast.error(e.message),
   })
+
+  if (loading1 || loading2) return <LoadingSpinner text="Loading..." />
+  if (error1 || error2) return <ErrorMessage message={(err1 || err2)?.message || 'Failed to load'} />
 
   const addStat = async () => {
     if (!newStat.label || !newStat.value) return toast.error('Fill in both fields')

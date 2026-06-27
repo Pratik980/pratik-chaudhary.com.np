@@ -4,6 +4,8 @@ import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import ImageUpload from '../../components/ImageUpload'
 import TagInput from '../../components/TagInput'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Save } from 'lucide-react'
 
 export default function SeoEditor() {
@@ -11,7 +13,7 @@ export default function SeoEditor() {
   const [form, setForm] = useState({ page_title: '', meta_description: '', meta_keywords: [], og_image_url: '', twitter_handle: '' })
   const [keywords, setKeywords] = useState([])
 
-  const { data: seoData } = useQuery({
+  const { data: seoData, isLoading, isError, error } = useQuery({
     queryKey: ['seo'],
     queryFn: async () => {
       const { data } = await supabase.from('seo_settings').select('*').limit(1).maybeSingle()
@@ -19,6 +21,9 @@ export default function SeoEditor() {
     },
   })
   useEffect(() => { if (seoData) { setForm(seoData); setKeywords(seoData.meta_keywords || []) } }, [seoData])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const save = async () => {
     const vals = { ...form, meta_keywords: keywords, updated_at: new Date().toISOString() }

@@ -3,6 +3,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import TagInput from '../../components/TagInput'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Save } from 'lucide-react'
 
 export default function FooterEditor() {
@@ -11,7 +13,7 @@ export default function FooterEditor() {
   const [description, setDescription] = useState('')
   const [techStack, setTechStack] = useState([])
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['footer'],
     queryFn: async () => {
       const { data } = await supabase.from('footer_settings').select('*').limit(1).maybeSingle()
@@ -26,6 +28,9 @@ export default function FooterEditor() {
       if (data.tech_stack) setTechStack(data.tech_stack)
     }
   }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading footer..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load footer'} />
 
   const save = async () => {
     const existing = await supabase.from('footer_settings').select('id').limit(1).maybeSingle()

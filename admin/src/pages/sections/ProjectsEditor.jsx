@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import ImageUpload from '../../components/ImageUpload'
@@ -7,6 +7,8 @@ import RichTextEditor from '../../components/RichTextEditor'
 import TagInput from '../../components/TagInput'
 import DataTable from '../../components/DataTable'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save } from 'lucide-react'
 
 const defaultProject = { title: '', category: '', short_description: '', full_description: '', thumbnail_url: '', live_url: '', github_url: '', tech_stack: [], color_tag: 'accent-blue', is_featured: false, is_visible: true, display_order: 0 }
@@ -18,7 +20,7 @@ export default function ProjectsEditor() {
   const [form, setForm] = useState(defaultProject)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['projects'],
     queryFn: async () => {
       const { data } = await supabase.from('projects').select('*').order('display_order')
@@ -26,6 +28,9 @@ export default function ProjectsEditor() {
     },
   })
   useEffect(() => { if (data) setProjects(data) }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const openForm = (project) => {
     setForm(project ? { ...project } : { ...defaultProject, display_order: projects.length })

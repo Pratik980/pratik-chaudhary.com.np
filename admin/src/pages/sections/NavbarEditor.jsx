@@ -6,6 +6,8 @@ import ImageUpload from '../../components/ImageUpload'
 import FileUpload from '../../components/FileUpload'
 import SortableList from '../../components/SortableList'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save } from 'lucide-react'
 
 export default function NavbarEditor() {
@@ -16,7 +18,7 @@ export default function NavbarEditor() {
   const [linkModal, setLinkModal] = useState(null)
   const [linkForm, setLinkForm] = useState({ label: '', href: '', display_order: 0, is_visible: true })
 
-  const { data: navbarData } = useQuery({
+  const { data: navbarData, isLoading: loading1, isError: error1, error: err1 } = useQuery({
     queryKey: ['navbar'],
     queryFn: async () => {
       const { data } = await supabase.from('navbar_settings').select('*').limit(1).maybeSingle()
@@ -25,7 +27,7 @@ export default function NavbarEditor() {
   })
   useEffect(() => { if (navbarData) setForm(navbarData) }, [navbarData])
 
-  const { data: linkData } = useQuery({
+  const { data: linkData, isLoading: loading2, isError: error2, error: err2 } = useQuery({
     queryKey: ['nav-links'],
     queryFn: async () => {
       const { data } = await supabase.from('nav_links').select('*').order('display_order')
@@ -33,6 +35,9 @@ export default function NavbarEditor() {
     },
   })
   useEffect(() => { if (linkData) setLinks(linkData) }, [linkData])
+
+  if (loading1 || loading2) return <LoadingSpinner text="Loading..." />
+  if (error1 || error2) return <ErrorMessage message={(err1 || err2)?.message || 'Failed to load'} />
 
   const saveNavbar = async () => {
     const existing = await supabase.from('navbar_settings').select('id').limit(1).maybeSingle()

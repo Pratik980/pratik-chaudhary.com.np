@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { Menu, X, Github, Linkedin, Twitter, Send, Instagram } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ComponentType } from 'react'
 import portfolioImg from '@/assets/portfolio.png'
 import { getHero, getSocialLinks, getNavbar } from '@/api/portfolio'
 
@@ -46,7 +46,9 @@ export function Hero() {
 
   // Typing effect
   useEffect(() => {
-    const current = typingRoles[roleIndex]
+    if (!typingRoles.length) return
+    const current = typingRoles[roleIndex] || ''
+    if (!current) return
     const speed = isDeleting ? 50 : 100
 
     const timer = setTimeout(() => {
@@ -70,7 +72,7 @@ export function Hero() {
     }, speed)
 
     return () => clearTimeout(timer)
-  }, [charIndex, isDeleting, roleIndex])
+  }, [charIndex, isDeleting, roleIndex, typingRoles])
 
   const fallbackNavLinks = [
     { href: '#about', label: 'About' },
@@ -86,13 +88,13 @@ export function Hero() {
     ? navbar.nav_links.map((l) => ({ href: l.href, label: l.label }))
     : fallbackNavLinks
 
-  const iconMap = { Github, Linkedin, Twitter, Send, Instagram } as const
+  const iconMap: Record<string, ComponentType<{ className?: string }>> = { Github, Linkedin, Twitter, Send, Instagram }
 
   const socials = socialsData?.length
-    ? socialsData.map((s) => {
-        const Icon = iconMap[s.icon as keyof typeof iconMap]
-        return { href: s.url, icon: Icon ? <Icon className="w-5 h-5" /> : null, label: s.platform }
-      }).filter(s => s.icon)
+    ? socialsData.flatMap((s) => {
+        const Icon = s.icon ? iconMap[s.icon] : undefined
+        return Icon ? [{ href: s.url, icon: <Icon className="w-5 h-5" />, label: s.platform }] : []
+      })
     : [
         { href: 'https://www.linkedin.com/in/pratik-chaudhary-web/', icon: <Linkedin className="w-5 h-5" />, label: 'LinkedIn' },
         { href: 'https://github.com/Pratik980', icon: <Github className="w-5 h-5" />, label: 'GitHub' },

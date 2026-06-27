@@ -2,12 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { Navigate } from 'react-router-dom'
 
-function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
-  return ctx
-}
-
 export const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {

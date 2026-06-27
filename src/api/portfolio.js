@@ -1,74 +1,74 @@
 import { supabase } from '../lib/supabase'
 
-export const getHero = async () => {
-  const { data } = await supabase.from('hero').select('*').maybeSingle()
+async function query(table, options = {}) {
+  const { single, filter, order } = options
+  let q = supabase.from(table).select(options.select || '*')
+  if (filter) q = q.eq(filter.key, filter.value)
+  if (order) q = q.order(order.by, { ascending: order.ascending ?? true })
+  if (single) q = q.maybeSingle()
+
+  const { data, error } = await q
+  if (error) throw new Error(`Failed to fetch ${table}: ${error.message}`)
   return data
+}
+
+export const getHero = async () => {
+  return query('hero', { single: true })
 }
 
 export const getSocialLinks = async () => {
-  const { data } = await supabase.from('social_links').select('*').eq('is_visible', true).order('display_order')
-  return data || []
+  return query('social_links', { filter: { key: 'is_visible', value: true }, order: { by: 'display_order' } }) || []
 }
 
 export const getAbout = async () => {
-  const { data } = await supabase.from('about').select('*').maybeSingle()
-  return data
+  return query('about', { single: true })
 }
 
 export const getAboutStats = async () => {
-  const { data } = await supabase.from('about_stats').select('*').order('display_order')
-  return data || []
+  return query('about_stats', { order: { by: 'display_order' } }) || []
 }
 
 export const getSkills = async () => {
-  const { data } = await supabase.from('skill_categories').select('*, skills(*)').order('display_order')
-  return data || []
+  return query('skill_categories', { select: '*, skills(*)', order: { by: 'display_order' } }) || []
 }
 
 export const getProjects = async () => {
-  const { data } = await supabase.from('projects').select('*').eq('is_visible', true).order('display_order')
-  return data || []
+  return query('projects', { filter: { key: 'is_visible', value: true }, order: { by: 'display_order' } }) || []
 }
 
 export const getExperience = async () => {
-  const { data } = await supabase.from('experience').select('*').order('display_order')
-  return data || []
+  return query('experience', { order: { by: 'display_order' } }) || []
 }
 
 export const getEducation = async () => {
-  const { data } = await supabase.from('education').select('*').order('display_order')
-  return data || []
+  return query('education', { order: { by: 'display_order' } }) || []
 }
 
 export const getContactInfo = async () => {
-  const { data } = await supabase.from('contact_info').select('*').maybeSingle()
-  return data
+  return query('contact_info', { single: true })
 }
 
 export const getNavbar = async () => {
-  const { data: navbar } = await supabase.from('navbar_settings').select('*').maybeSingle()
+  const navbar = await query('navbar_settings', { single: true })
   if (!navbar) return null
-  const { data: navLinks } = await supabase.from('nav_links').select('*').eq('is_visible', true).order('display_order')
-  return { ...navbar, nav_links: navLinks || [] }
+  const navLinks = await query('nav_links', { filter: { key: 'is_visible', value: true }, order: { by: 'display_order' } }) || []
+  return { ...navbar, nav_links: navLinks }
 }
 
 export const getFooter = async () => {
-  const { data } = await supabase.from('footer_settings').select('*').maybeSingle()
-  return data
+  return query('footer_settings', { single: true })
 }
 
 export const getSeo = async () => {
-  const { data } = await supabase.from('seo_settings').select('*').maybeSingle()
-  return data
+  return query('seo_settings', { single: true })
 }
 
 export const getCertifications = async () => {
-  const { data } = await supabase.from('certifications').select('*').order('display_order')
-  return data || []
+  return query('certifications', { order: { by: 'display_order' } }) || []
 }
 
 export const submitContactForm = async (data) => {
   const { error } = await supabase.from('contact_submissions').insert([data])
-  if (error) throw error
+  if (error) throw new Error(`Failed to submit contact form: ${error.message}`)
   return true
 }

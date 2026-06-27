@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import DataTable from '../../components/DataTable'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save, X } from 'lucide-react'
 
 const blank = { title: '', issuer: '', date: '', link: '', color_tag: 'accent-blue', sub_links: [], display_order: 0 }
@@ -15,7 +17,7 @@ export default function CertificationsEditor() {
   const [form, setForm] = useState(blank)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['certifications'],
     queryFn: async () => {
       const { data } = await supabase.from('certifications').select('*').order('display_order')
@@ -23,6 +25,9 @@ export default function CertificationsEditor() {
     },
   })
   useEffect(() => { if (data) setItems(data) }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const openForm = (item) => {
     if (item) {

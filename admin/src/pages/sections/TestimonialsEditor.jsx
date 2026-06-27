@@ -4,6 +4,8 @@ import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
 import ImageUpload from '../../components/ImageUpload'
 import ConfirmDialog from '../../components/ConfirmDialog'
+import LoadingSpinner from '../../components/LoadingSpinner'
+import ErrorMessage from '../../components/ErrorMessage'
 import { Plus, Save, Star } from 'lucide-react'
 
 const blank = { client_name: '', client_role: '', client_company: '', client_photo_url: '', quote: '', rating: 5, display_order: 0, is_visible: true }
@@ -15,7 +17,7 @@ export default function TestimonialsEditor() {
   const [form, setForm] = useState(blank)
   const [deleteId, setDeleteId] = useState(null)
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['testimonials'],
     queryFn: async () => {
       const { data } = await supabase.from('testimonials').select('*').order('display_order')
@@ -23,6 +25,9 @@ export default function TestimonialsEditor() {
     },
   })
   useEffect(() => { if (data) setItems(data) }, [data])
+
+  if (isLoading) return <LoadingSpinner text="Loading..." />
+  if (isError) return <ErrorMessage message={error?.message || 'Failed to load'} />
 
   const openForm = (item) => {
     setForm(item ? { ...item } : { ...blank, display_order: items.length })
