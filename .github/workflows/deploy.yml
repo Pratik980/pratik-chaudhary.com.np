@@ -30,11 +30,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build portfolio
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Build admin
+        run: |
+          cd admin
+          npm ci
+          npm run build
+          cp -r dist ../dist/admin
+
+      - name: SPA fallback for admin
+        run: cp dist/admin/index.html dist/admin/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
